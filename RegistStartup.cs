@@ -13,8 +13,9 @@ namespace RegistStartup {
         [STAThread]
         private static void Main() {
             using(new TemporaryCurrentDirectory(Application.StartupPath)) {
-                foreach(string path in new string[] { "..\\yamy-0.03\\yamy.exe", "..\\fitwin\\fitwin.exe", "..\\launcher.exe" }) {
-                    string p = Path.GetFullPath(path);
+                foreach(var path in new string[] { @"..\fitwin\fitwin.exe", @"..\launcher.exe",
+                        @"..\yamy-0.03\yamy.exe", @"C:\Program Files (x86)\Mozilla Thunderbird\thunderbird.exe" }) {
+                    var p = Path.GetFullPath(path);
                     var s = (new WshShell()).CreateShortcut(string.Format("{0}\\{1}.lnk",
                         Environment.GetFolderPath(Environment.SpecialFolder.Startup), Path.GetFileNameWithoutExtension(p)));
                     s.IconLocation = p + ",0";
@@ -24,7 +25,6 @@ namespace RegistStartup {
                     try {
                         s.Save();
                         Process.Start(s.FullName);
-                    } catch(UnauthorizedAccessException) {
                     } finally {
                         Marshal.ReleaseComObject(s);
                     }
